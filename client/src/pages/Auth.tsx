@@ -1,8 +1,12 @@
 import React from 'react'
 import { Content } from 'antd/es/layout/layout'
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Button, Checkbox, Form, Input, Collapse } from 'antd';
 import { NavLink, useLocation } from 'react-router-dom';
 import { LOGIN_ROUTE, REGISTRATION_ROUTE } from '../utils/consts';
+import { useStore } from '../store/RootStore';
+import type { CollapseProps } from 'antd';
+import AddingAdminForm from '../components/AddingAdminForm';
+import AddingDeviceAdminForm from '../components/AddingDeviceAdminForm';
 
 type FieldType = {
   username?: string;
@@ -10,16 +14,56 @@ type FieldType = {
   remember?: string;
 };
 
-const onFinish = (values: any) => {
+const onFinishReg = (values: any) => {
   console.log('Success:', values);
+};
+
+const onFinishAddType = (values: any) => {
+  console.log('Type:', values);
+};
+
+const onFinishAddBrand = (values: any) => {
+  console.log('Brand:', values);
+};
+
+const onFinishAddDevice = (values: any) => {
+  console.log('Device:', values);
 };
 
 const Auth = () => {
   const {pathname} = useLocation()
+  const {user, device} = useStore()
   const isLogin = pathname === '/login'
   
+  const items: CollapseProps['items'] = [
+    {
+      key: '1',
+      label: 'Создать тип продукта',
+      children: <AddingAdminForm onFinish={onFinishAddType} name="Type"/>,
+    },
+    {
+      key: '2',
+      label: 'Создать бренд',
+      children: <AddingAdminForm onFinish={onFinishAddBrand} name="Brand"/>,
+    },
+    {
+      key: '3',
+      label: 'Создать девайс',
+      children: <AddingDeviceAdminForm onFinish={onFinishAddDevice} device={device}/>,
+    },
+  ];
+
   return (
-    <Content>
+    <Content style={{ minHeight: '100vh'}}>
+      {user.isAuth ? 
+      <div style={{padding: '25px 0 0 55px'}}>
+        <h2>Здравствуйте, {user.user.email}</h2>
+        {
+          user.user.role === 'ADMIN' && 
+          <Collapse style={{maxWidth: '80vw'}} accordion items={items}/>
+        }
+      </div> 
+      :
       <div style={{paddingTop: '25px'}}>
         {isLogin ? 
         <h3 style={{padding: '0 0 0 115px'}}>Нет аккаунта? <NavLink to={REGISTRATION_ROUTE}> Зарегистрируйтесь!</NavLink></h3> :
@@ -31,7 +75,7 @@ const Auth = () => {
           wrapperCol={{ span: 16 }}
           style={{ maxWidth: 600 }}
           initialValues={{ remember: true }}
-          onFinish={onFinish}
+          onFinish={onFinishReg}
           autoComplete="off"
         >
           <Form.Item<FieldType>
@@ -65,6 +109,7 @@ const Auth = () => {
           </Form.Item>
         </Form>
       </div>
+      }
     </Content>
   )
 }

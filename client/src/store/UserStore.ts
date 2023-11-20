@@ -10,11 +10,11 @@ export interface IUserStore {
 export default class UserStore implements IUserStore {
 
     _isAuth: boolean
-    _user: object
+    _user: any
 
     constructor(){
-        this._isAuth = false
-        this._user = {}
+        this._isAuth = true
+        this._user = {id: 1, email: 'user@mail.ru', role: 'ADMIN'}
         makeAutoObservable(this)
     }
 

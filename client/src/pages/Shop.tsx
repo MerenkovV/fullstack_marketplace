@@ -25,7 +25,7 @@ const Shop = observer(() => {
         items={device.types.map((type)=>({label: type.name, key: type.id}))}
         selectedKeys={[currentType]}
         onClick={(e)=>{setCurrentType(e.key)}}
-          />
+        />
       </Sider>
       <Layout>
         <ConfigProvider

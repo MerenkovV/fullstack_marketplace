@@ -14,12 +14,11 @@ const NavBar = observer(() => {
     <Header style={{display: "flex", alignItems: "center", justifyContent: "space-between"}}>
         <NavLink className={style.logo} to={SHOP_ROUTE}>Device70</NavLink>
         <div className={style.login_panel}>
-            {!user.isAuth && 
-                <NavLink to={LOGIN_ROUTE}>
-                    <UserOutlined />
-                </NavLink>
-            }
             
+            <NavLink to={LOGIN_ROUTE}>
+                <UserOutlined />
+            </NavLink>
+
             <NavLink to={BASKET_ROUTE}>
                 <ShoppingCartOutlined />
             </NavLink>
