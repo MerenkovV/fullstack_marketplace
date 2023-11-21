@@ -6,18 +6,31 @@ import { NavLink } from 'react-router-dom'
 import { BASKET_ROUTE, LOGIN_ROUTE, SHOP_ROUTE } from '../utils/consts'
 import style from './styles/NavBarStyle.module.css'
 import { observer } from 'mobx-react-lite'
+import { Popover, Button } from 'antd';
 
 const NavBar = observer(() => {
     const {user} = useStore()
+
+    const logOut = () => {
+        user.setUser({})
+        user.setIsAuth(false)
+    }
 
   return (
     <Header style={{display: "flex", alignItems: "center", justifyContent: "space-between"}}>
         <NavLink className={style.logo} to={SHOP_ROUTE}>Device70</NavLink>
         <div className={style.login_panel}>
-            
+            {user.isAuth ?
+            <Popover content={<Button type='dashed' size='large' onClick={()=>logOut()}>Выйти</Button>}>
+                <NavLink to={LOGIN_ROUTE}>
+                    <UserOutlined />
+                </NavLink>
+            </Popover> 
+            :
             <NavLink to={LOGIN_ROUTE}>
                 <UserOutlined />
             </NavLink>
+            }
 
             <NavLink to={BASKET_ROUTE}>
                 <ShoppingCartOutlined />

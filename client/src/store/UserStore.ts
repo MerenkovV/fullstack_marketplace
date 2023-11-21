@@ -13,7 +13,7 @@ export default class UserStore implements IUserStore {
     _user: any
 
     constructor(){
-        this._isAuth = true
+        this._isAuth = false
         this._user = {id: 1, email: 'user@mail.ru', role: 'ADMIN'}
         makeAutoObservable(this)
     }

@@ -29,14 +29,8 @@ export default class DeviceStore implements IUserStore {
             {id: 4, name: 'Asus'},
         ]
         this._devices = [
-            {id: 1, name: 'Iphone 12 pro', price: 100000, rating: 5, img: 'http://localhost:5000/adfa713c-142e-4c09-bfad-e7183245e917.jpg'},
-            {id: 2, name: 'Iphone 12 pro', price: 100000, rating: 5, img: 'http://localhost:5000/adfa713c-142e-4c09-bfad-e7183245e917.jpg'},
-            {id: 3, name: 'Iphone 12 pro', price: 100000, rating: 5, img: 'http://localhost:5000/adfa713c-142e-4c09-bfad-e7183245e917.jpg'},
-            {id: 4, name: 'Iphone 12 pro', price: 100000, rating: 5, img: 'http://localhost:5000/adfa713c-142e-4c09-bfad-e7183245e917.jpg'},
-            {id: 5, name: 'Iphone 12 pro', price: 100000, rating: 5, img: 'http://localhost:5000/adfa713c-142e-4c09-bfad-e7183245e917.jpg'},
-            {id: 6, name: 'Iphone 12 pro', price: 100000, rating: 5, img: 'http://localhost:5000/adfa713c-142e-4c09-bfad-e7183245e917.jpg'},
-            {id: 7, name: 'Iphone 12 pro', price: 100000, rating: 5, img: 'http://localhost:5000/adfa713c-142e-4c09-bfad-e7183245e917.jpg'},
-            {id: 8, name: 'Iphone 12 pro', price: 100000, rating: 5, img: 'http://localhost:5000/adfa713c-142e-4c09-bfad-e7183245e917.jpg'},
+            {id: 1, name: 'Iphone 12 pro', price: 100000, rating: 5, img: ''},
+            
         ]
         makeAutoObservable(this)
     }

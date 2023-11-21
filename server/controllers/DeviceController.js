@@ -4,10 +4,10 @@ const {Device, DeviceInfo} = require('../models/models')
 const ApiError = require('../errors/ApiError')
 
 class DeviceController {
-    async create (req, res) {
+    async create (req, res, next) {
         try {
-            const {name, price, brandId, typeId, info} = req.body
-            const {img} = req.files
+            let {name, price, brandId, typeId, info} = req.body
+            let {img} = req.files
             let filename = uuid.v4() + ".jpg"
             img.mv(path.resolve(__dirname, '..', 'static', filename))
 

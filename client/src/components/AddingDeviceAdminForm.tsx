@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Form, Input, Select, Upload, Space } from 'antd';
 import { UploadOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import type { UploadProps } from 'antd';
+import { observer } from 'mobx-react-lite';
 
 const { Option } = Select;
 
@@ -12,7 +12,7 @@ const normFile = (e: any) => {
   return e?.fileList;
 };
 
-const AddingDeviceAdminForm = ({onFinish, device} : any) => {
+const AddingDeviceAdminForm = observer(({onFinish, device} : any) => {
   return (
     <Form
         name='Device'
@@ -23,7 +23,7 @@ const AddingDeviceAdminForm = ({onFinish, device} : any) => {
         onFinish={onFinish}
         autoComplete="off"
       >
-        <Form.Item name="type" label="Тип" rules={[{ required: true }]}>
+        <Form.Item name="typeId" label="Тип" rules={[{ required: true }]}>
           <Select
             placeholder="Выберите тип"
             allowClear
@@ -33,7 +33,7 @@ const AddingDeviceAdminForm = ({onFinish, device} : any) => {
             }
           </Select>
         </Form.Item>
-        <Form.Item name="brand" label="Бренд" rules={[{ required: true }]}>
+        <Form.Item name="brandId" label="Бренд" rules={[{ required: true }]}>
           <Select
             placeholder="Выберите бренд"
             allowClear
@@ -43,10 +43,13 @@ const AddingDeviceAdminForm = ({onFinish, device} : any) => {
             }
           </Select>
         </Form.Item>
-        <Form.Item name="Name" label="Название" rules={[{ required: true }]}>
+        <Form.Item name="name" label="Название" rules={[{ required: true }]}>
           <Input />
         </Form.Item>
-        <Form.Item name="Upload" label="Upload" valuePropName="fileList" getValueFromEvent={normFile}>
+        <Form.Item name="price" label="Цена" rules={[{ required: true }]}>
+          <Input type='number' addonAfter='₽'/>
+        </Form.Item>
+        <Form.Item name="img" label="Upload" valuePropName="fileList" getValueFromEvent={normFile}>
           <Upload
               name="logo"
               beforeUpload={(file, fileList)=>false}
@@ -58,21 +61,21 @@ const AddingDeviceAdminForm = ({onFinish, device} : any) => {
             </Upload>
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Form.List name="description">
+          <Form.List name="info">
             {(fields, { add, remove }) => (
               <>
                 {fields.map(({ key, name, ...restField }) => (
                   <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
                     <Form.Item
                       {...restField}
-                      name={[name, 'first']}
+                      name={[name, 'title']}
                       rules={[{ required: true, message: 'Введите параметр' }]}
                     >
                       <Input placeholder="Параметр" />
                     </Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, 'last']}
+                      name={[name, 'description']}
                       rules={[{ required: true, message: 'Введите значение' }]}
                     >
                       <Input placeholder="Значение" />
@@ -93,9 +96,12 @@ const AddingDeviceAdminForm = ({onFinish, device} : any) => {
           <Button type="primary" htmlType="submit">
             Создать
           </Button>
+          <Button style={{marginLeft: '20px'}} type="dashed" htmlType="reset">
+            Очистить
+          </Button>
         </Form.Item>
       </Form>
   )
-}
+})
 
 export default AddingDeviceAdminForm

@@ -1,39 +1,82 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Content } from 'antd/es/layout/layout'
-import { Button, Checkbox, Form, Input, Collapse } from 'antd';
+import { Button, Checkbox, Form, Input, Collapse, message } from 'antd';
 import { NavLink, useLocation } from 'react-router-dom';
 import { LOGIN_ROUTE, REGISTRATION_ROUTE } from '../utils/consts';
 import { useStore } from '../store/RootStore';
 import type { CollapseProps } from 'antd';
 import AddingAdminForm from '../components/AddingAdminForm';
 import AddingDeviceAdminForm from '../components/AddingDeviceAdminForm';
+import { login, registration } from '../http/userAPI';
+import { observer } from 'mobx-react-lite';
+import { createBrand, createDevice, createType, fetchBrands, fetchTypes } from '../http/deviceAPI';
 
 type FieldType = {
-  username?: string;
+  email?: string;
   password?: string;
   remember?: string;
 };
 
-const onFinishReg = (values: any) => {
-  console.log('Success:', values);
-};
+const Auth = observer(() => {
 
-const onFinishAddType = (values: any) => {
-  console.log('Type:', values);
-};
-
-const onFinishAddBrand = (values: any) => {
-  console.log('Brand:', values);
-};
-
-const onFinishAddDevice = (values: any) => {
-  console.log('Device:', values);
-};
-
-const Auth = () => {
+  const [messageApi, contextHolder] = message.useMessage();
   const {pathname} = useLocation()
   const {user, device} = useStore()
   const isLogin = pathname === '/login'
+
+  const onFinishAddType = (values: any) => {
+    createType(values).then(()=>{
+      messageApi.success('Тип добавлен')
+      fetchAll()
+    }).catch((e)=>messageApi.error(e.response.data.message))
+  };
+  
+  const onFinishAddBrand = (values: any) => {
+    createBrand(values).then(()=>{
+      messageApi.success('Бренд добавлен')
+      fetchAll()
+    }).catch((e)=>messageApi.error(e.response.data.message))
+  };
+  
+  const onFinishAddDevice = (values: any) => {
+    let formData = new FormData()
+    formData.append('name', `${values.name}`)
+    formData.append('price', `${values.price}`)
+    formData.append('img', values.img[0].originFileObj)
+    formData.append('brandId', `${values.brandId}`)
+    formData.append('typeId', `${values.typeId}`)
+    formData.append('info', JSON.stringify(values.info))
+    
+    createDevice(formData).then(()=>{
+      messageApi.success('Девайс добавлен')
+    }).catch(e=>messageApi.error(e.response.data.message))
+  };
+
+  const fetchAll = () => {
+    fetchTypes().then((data)=>{
+      device.setTypes(data)
+    })
+    fetchBrands().then((data)=>{
+      device.setBrands(data)
+    })
+  }
+
+  useEffect(()=>fetchAll(), [])
+
+  const signIn = async ({email, password}: any) => {
+    try{
+      let userData;    
+      if(isLogin){
+        userData = await login(email, password)
+      }else{
+        userData = await registration(email, password)
+      }
+      user.setUser(userData)
+      user.setIsAuth(true)
+    }catch(e: any){
+      alert(e.response.data.message)
+    }
+  }
   
   const items: CollapseProps['items'] = [
     {
@@ -54,6 +97,8 @@ const Auth = () => {
   ];
 
   return (
+    <>
+    {contextHolder}
     <Content style={{ minHeight: '100vh'}}>
       {user.isAuth ? 
       <div style={{padding: '25px 0 0 55px'}}>
@@ -75,13 +120,13 @@ const Auth = () => {
           wrapperCol={{ span: 16 }}
           style={{ maxWidth: 600 }}
           initialValues={{ remember: true }}
-          onFinish={onFinishReg}
+          onFinish={signIn}
           autoComplete="off"
         >
           <Form.Item<FieldType>
-            label="Username"
-            name="username"
-            rules={[{ required: true, message: 'Please input your username!' }]}
+            label="Email"
+            name="email"
+            rules={[{ required: true, message: 'Введите email!' }]}
           >
             <Input />
           </Form.Item>
@@ -89,7 +134,7 @@ const Auth = () => {
           <Form.Item<FieldType>
             label="Password"
             name="password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
+            rules={[{ required: true, message: 'Введите пароль!' }]}
           >
             <Input.Password />
           </Form.Item>
@@ -111,7 +156,8 @@ const Auth = () => {
       </div>
       }
     </Content>
+    </>
   )
-}
+})
 
 export default Auth

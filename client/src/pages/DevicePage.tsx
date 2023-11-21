@@ -1,22 +1,30 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Content } from 'antd/es/layout/layout';
 import { Button } from 'antd';
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
+import { useParams } from 'react-router-dom';
+import { fetchOneDevice } from '../http/deviceAPI';
+import { observer } from 'mobx-react-lite';
 
-const DevicePage = () => {
-  const device = {id: 1, name: 'Iphone 12 pro', price: 100000, rating: 5, img: 'http://localhost:5000/adfa713c-142e-4c09-bfad-e7183245e917.jpg'}
-  const description = [
-    {id: 1, title: 'Оперативная память', description: '5 гб'},
-    {id: 2, title: 'Процессор', description: 'pentium'},
-    {id: 3, title: 'Количество ядер', description: '2'},
-    {id: 4, title: 'Камера', description: '12 мп'},
-  ]
-  const responsive = {
-      0: { items: 1 }
-  };
+const responsive = {
+  0: { items: 1 }
+};
 
-  const items = [<img src={device.img} alt="Device" width='500px' style={{borderRadius: '20px'}}/>];
+const DevicePage = observer(() => {
+
+  const {id} = useParams()
+
+  const [device, setDevice]: any = useState({info: []})
+
+  useEffect(()=>{
+    fetchOneDevice(Number(id)).then((data)=>{
+      setDevice(data)
+    })
+  }, [])
+  
+
+  const items = [<img src={process.env.REACT_APP_API_URL + device.img} alt="Device" width='500px' style={{borderRadius: '20px'}}/>];
   return (
     <Content style={{padding: '20px 0 0 0', minHeight: '100vh'}}>
       <h2 style={{textAlign: 'center', fontSize: '40px'}}>{device.name}</h2>
@@ -37,13 +45,13 @@ const DevicePage = () => {
           </div>
           <div className='description-container'>
             <ul style={{padding: '0 25px'}}>
-              {description.map((item)=><li key={item.id} style={{display: 'flex', justifyContent: 'space-between'}}><h3>{item.title}</h3> <p>{item.description}</p></li>)}
+              {device.info.map((item: any)=><li key={item.id} style={{display: 'flex', justifyContent: 'space-between'}}><h3>{item.title}</h3> <p>{item.description}</p></li>)}
             </ul>
           </div>
         </div>
       </div>
     </Content>
   )
-}
+})
 
 export default DevicePage
