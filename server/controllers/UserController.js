@@ -33,8 +33,6 @@ class UserController {
         return res.json({token})
     }
     async auth (req, res, next) {
-        const isReal = await User.findOne({where: req.user.email})
-        if(!isReal) return next(ApiError.badRequest('Неверно введён логин/пароль'))
         const token = generateJWT(req.user.id, req.user.email, req.user.role)
         return res.json({token})
     }
