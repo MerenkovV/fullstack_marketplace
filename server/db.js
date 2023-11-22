@@ -1,4 +1,3 @@
-import * as pg from 'pg'
 const {Sequelize} = require('sequelize')
 
 module.exports = new Sequelize(
