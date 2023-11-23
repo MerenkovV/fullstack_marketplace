@@ -54,7 +54,7 @@ const Shop = observer(() => {
                 key={item.id}
                 hoverable
                 style={{ width: '240px', display: 'grid', gridTemplateRows: 'auto 110px'}}
-                cover={<img alt="example" src={process.env.REACT_APP_API_URL + item.img} style={{width:'230px', paddingTop: '10px'}}/>}
+                cover={<img alt="example" src={item.img} style={{width:'230px', paddingTop: '10px'}}/>}
                 onClick={()=>navigate(DEVICE_ROUTE + '/' + item.id)}
               >
                 <Meta title={item.name} description={item.price + ' руб'} />

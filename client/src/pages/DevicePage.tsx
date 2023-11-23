@@ -24,7 +24,7 @@ const DevicePage = observer(() => {
   }, [])
   
 
-  const items = [<img src={process.env.REACT_APP_API_URL + device.img} alt="Device" width='500px' style={{borderRadius: '20px'}}/>];
+  const items = [<img src={device.img} alt="Device" width='500px' style={{borderRadius: '20px'}}/>];
   return (
     <Content style={{padding: '20px 0 0 0', minHeight: '100vh'}}>
       <h2 style={{textAlign: 'center', fontSize: '40px'}}>{device.name}</h2>

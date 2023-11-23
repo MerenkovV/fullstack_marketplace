@@ -2,16 +2,23 @@ const uuid = require('uuid')
 const path = require('path')
 const {Device, DeviceInfo} = require('../models/models')
 const ApiError = require('../errors/ApiError')
+const cloud = require('./CloudImage')
 
+
+    
 class DeviceController {
     async create (req, res, next) {
         try {
             let {name, price, brandId, typeId, info} = req.body
             let {img} = req.files
-            let filename = uuid.v4() + ".jpg"
-            img.mv(path.resolve(__dirname, '..', 'static', filename))
+            const base64 = Buffer.from(img.data).toString('base64')
+            //let filename = uuid.v4() + ".jpg"
+            // return res.json(img.name)
+            const fileURL = await cloud(base64)
+            console.log(fileURL);
+            //img.mv(path.resolve(__dirname, '..', 'static', filename))
 
-            const device = await Device.create({name, price, brandId, typeId, img: filename})
+            const device = await Device.create({name, price, brandId, typeId, img: `${fileURL}`})
 
             if(info){
                 info = JSON.parse(info)

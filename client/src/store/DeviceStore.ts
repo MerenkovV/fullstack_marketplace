@@ -17,20 +17,13 @@ export default class DeviceStore implements IUserStore {
 
     constructor(){
         this._types = [
-            {id: 1, name: 'Холодильники'},
-            {id: 2, name: 'Смартфоны'},
-            {id: 3, name: 'Ноутбуки'},
-            {id: 4, name: 'Телевизоры'},
+            {id: 1, name: 'Загрузка...'},
         ]
         this._brands = [
-            {id: 1, name: 'Samsung'},
-            {id: 2, name: 'Apple'},
-            {id: 3, name: 'Lenovo'},
-            {id: 4, name: 'Asus'},
+            {id: 1, name: 'Загрузка...'},
         ]
         this._devices = [
-            {id: 1, name: 'Iphone 12 pro', price: 100000, rating: 5, img: ''},
-            
+            {id: 1, name: 'Загрузка...', price: 0, rating: 0, img: ''},
         ]
         makeAutoObservable(this)
     }
