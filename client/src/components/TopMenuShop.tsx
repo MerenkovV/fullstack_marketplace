@@ -1,7 +1,8 @@
 import React from 'react'
 import { Menu, ConfigProvider } from 'antd';
+import DeviceStore, { DeviceBrands } from './../store/DeviceStore';
 
-const TopMenuShop = ({device, currentBrand, setCurrentBrand}:any) => {
+const TopMenuShop = ({device, currentBrand, setCurrentBrand}:{device: DeviceStore, currentBrand: number, setCurrentBrand:(arg0:number)=>void}) => {
   return (
     <ConfigProvider
         theme={{
@@ -17,7 +18,7 @@ const TopMenuShop = ({device, currentBrand, setCurrentBrand}:any) => {
         style={{maxHeight: "40px", alignItems: "center"}}
         theme="dark"
         mode="horizontal"
-        items={device.brands.map((brand: any) => ({
+        items={device.brands.map((brand: DeviceBrands) => ({
             key: brand.id,
             label: brand.name}))}
         selectedKeys={[String(currentBrand)]}

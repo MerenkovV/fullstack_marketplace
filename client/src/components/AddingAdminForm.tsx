@@ -1,8 +1,14 @@
 import React from 'react'
 import { Form, Input, Button } from 'antd';
 
-const AddingAdminForm = ({onFinish, name} : any) => {
+const AddingAdminForm = ({onFinish, name} : 
+  {onFinish: (values: any)=>void, name: string}) => {
+
   const [form] = Form.useForm()
+
+  type FieldType = {
+    name?: string;
+  };
 
   return (
     <Form
@@ -15,7 +21,7 @@ const AddingAdminForm = ({onFinish, name} : any) => {
         onFinish={onFinish}
         autoComplete="off"
       >
-        <Form.Item name="name" label="Название" rules={[{ required: true }]}>
+        <Form.Item<FieldType> name="name" label="Название" rules={[{ required: true }]}>
           <Input />
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>

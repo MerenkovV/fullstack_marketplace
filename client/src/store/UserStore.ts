@@ -1,16 +1,22 @@
 import { makeAutoObservable } from "mobx"
 
+export type UserType = {
+    id?: number
+    email?: string
+    role?: 'ADMIN' | 'USER'
+}
+
 export interface IUserStore {
     _isAuth: boolean
-    _user: object
+    _user: UserType
     setIsAuth: (auth:boolean)=>void
-    setUser: (userInfo : object) => void
+    setUser: (userInfo : UserType) => void
 }
 
 export default class UserStore implements IUserStore {
 
     _isAuth: boolean
-    _user: any
+    _user: UserType
 
     constructor(){
         this._isAuth = false
@@ -22,7 +28,7 @@ export default class UserStore implements IUserStore {
         this._isAuth = auth
     }
 
-    setUser(userInfo : object){
+    setUser(userInfo : UserType){
         this._user = userInfo
     }
 

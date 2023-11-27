@@ -2,6 +2,7 @@ import React from 'react'
 import { Button, Form, Input, Select, Upload, Space } from 'antd';
 import { UploadOutlined, PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { observer } from 'mobx-react-lite';
+import DeviceStore, { DeviceBrands, DeviceTypes } from '../store/DeviceStore';
 
 const { Option } = Select;
 
@@ -12,7 +13,7 @@ const normFile = (e: any) => {
   return e?.fileList;
 };
 
-const AddingDeviceAdminForm = observer(({onFinish, device} : any) => {
+const AddingDeviceAdminForm = observer(({onFinish, device} : {onFinish: (values: any)=>void, device: DeviceStore}) => {
   return (
     <Form
         name='Device'
@@ -29,7 +30,7 @@ const AddingDeviceAdminForm = observer(({onFinish, device} : any) => {
             allowClear
           >
             {
-              device.types.map((type: any)=><Option key={type.id} value={type.id}>{type.name}</Option>)
+              device.types.map((type: DeviceTypes)=><Option key={type.id} value={type.id}>{type.name}</Option>)
             }
           </Select>
         </Form.Item>
@@ -39,7 +40,7 @@ const AddingDeviceAdminForm = observer(({onFinish, device} : any) => {
             allowClear
           >
             {
-              device.brands.map((brand: any)=><Option key={brand.id} value={brand.id}>{brand.name}</Option>)
+              device.brands.map((brand: DeviceBrands)=><Option key={brand.id} value={brand.id}>{brand.name}</Option>)
             }
           </Select>
         </Form.Item>
@@ -52,7 +53,7 @@ const AddingDeviceAdminForm = observer(({onFinish, device} : any) => {
         <Form.Item name="img" label="Upload" valuePropName="fileList" getValueFromEvent={normFile}>
           <Upload
               name="logo"
-              beforeUpload={(file, fileList)=>false}
+              beforeUpload={(_)=>false}
               listType="picture"
             >
               <Button>

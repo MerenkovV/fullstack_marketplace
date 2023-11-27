@@ -63,7 +63,7 @@ const Auth = observer(() => {
 
   useEffect(()=>fetchAll(), [])
 
-  const signIn = async ({email, password}: any) => {
+  const signIn = async ({email, password}: {email: string, password: string}) => {
     try{
       let userData;    
       if(isLogin){
@@ -71,6 +71,7 @@ const Auth = observer(() => {
       }else{
         userData = await registration(email, password)
       }
+    
       user.setUser(userData)
       user.setIsAuth(true)
     }catch(e: any){

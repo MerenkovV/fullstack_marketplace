@@ -1,19 +1,35 @@
 import { makeAutoObservable } from "mobx"
 
+export type DeviceTypes = {
+    id: number
+    name: string
+}
+export type DeviceBrands = {
+    id: number
+    name: string
+}
+export type Devices = {
+    id: number
+    name: string
+    price: number
+    rating: number
+    img: string
+}
+
 export interface IUserStore {
-    _types: any[]
-    _brands: any[]
-    _devices: any[]
-    setTypes: (type:any)=>void
-    setBrands: (brand:any)=>void
-    setDevices: (device:any)=>void
+    _types: DeviceTypes[]
+    _brands: DeviceBrands[]
+    _devices: Devices[]
+    setTypes: (type:DeviceTypes[])=>void
+    setBrands: (brand:DeviceBrands[])=>void
+    setDevices: (device:Devices[])=>void
 }
 
 export default class DeviceStore implements IUserStore {
 
-    _types: any[]
-    _brands: any[]
-    _devices: any[]
+    _types: DeviceTypes[]
+    _brands: DeviceBrands[]
+    _devices: Devices[]
 
     constructor(){
         this._types = [
@@ -28,15 +44,15 @@ export default class DeviceStore implements IUserStore {
         makeAutoObservable(this)
     }
 
-    setTypes(type : any){
+    setTypes(type : DeviceTypes[]){
         this._types = type
     }
 
-    setBrands(brand : any){
+    setBrands(brand : DeviceBrands[]){
         this._brands = brand
     }
 
-    setDevices(device : any){
+    setDevices(device : Devices[]){
         this._devices = device
     }
 
@@ -52,3 +68,5 @@ export default class DeviceStore implements IUserStore {
         return this._devices
     }
 }
+
+export type DeviceStoreType = typeof DeviceStore
