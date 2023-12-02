@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react'
 import { Content } from 'antd/es/layout/layout'
-import { Button, Checkbox, Form, Input, Collapse, message } from 'antd';
+import { Button, Checkbox, Form, Input, Collapse, message, Spin, CollapseProps } from 'antd';
 import { NavLink, useLocation } from 'react-router-dom';
 import { LOGIN_ROUTE, REGISTRATION_ROUTE } from '../utils/consts';
 import { useStore } from '../store/RootStore';
-import type { CollapseProps } from 'antd';
 import AddingAdminForm from '../components/AddingAdminForm';
 import AddingDeviceAdminForm from '../components/AddingDeviceAdminForm';
 import { login, registration } from '../http/userAPI';
 import { observer } from 'mobx-react-lite';
 import { createBrand, createDevice, createType, fetchBrands, fetchTypes } from '../http/deviceAPI';
+import { LoadingOutlined } from '@ant-design/icons';
+import style from './styles/AuthStyle.module.css'
 
 type FieldType = {
   email?: string;
@@ -101,8 +102,12 @@ const Auth = observer(() => {
     <>
     {contextHolder}
     <Content style={{ minHeight: '100vh'}}>
-      {user.isAuth ? 
+      {user.isFetching ? 
       <div style={{padding: '25px 0 0 55px'}}>
+        <Spin indicator={<LoadingOutlined style={{ fontSize: 40 }} spin />} />
+      </div> :
+      user.isAuth ? 
+      <div className={style.adminWrapper}>
         <h2>Здравствуйте, {user.user.email}</h2>
         {
           user.user.role === 'ADMIN' && 

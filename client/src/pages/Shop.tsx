@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Layout, Card  } from 'antd';
+import { Layout, Card, Skeleton  } from 'antd';
 import { useStore } from '../store/RootStore';
 import { observer } from 'mobx-react-lite'
 import {useNavigate} from 'react-router-dom'
@@ -7,6 +7,7 @@ import { DEVICE_ROUTE } from '../utils/consts';
 import LeftMenuShop from '../components/LeftMenuShop';
 import TopMenuShop from '../components/TopMenuShop';
 import { fetchBrands, fetchDevices, fetchTypes } from '../http/deviceAPI';
+import style from './styles/ShopStyle.module.css'
 
 const { Meta } = Card;
 const { Content} = Layout;
@@ -32,10 +33,12 @@ const Shop = observer(() => {
   }, [])
 
   useEffect(()=>{
+    device.setIsFetching(true)
     fetchDevices(currentType, currentBrand).then((data)=>{
       device.setDevices(data.rows)
       setDevicesCount(Number(data.count))
       gridColumnStyle = (data.count <= 5 ? 'repeat(auto-fit, 260px)' : 'repeat(auto-fit, minmax(260px, 1fr)')
+      device.setIsFetching(false)
     })
   }, [currentType, currentBrand])
   
@@ -46,18 +49,20 @@ const Shop = observer(() => {
         <LeftMenuShop device={device} currentType={currentType} setCurrentType={setCurrentType}/>
       <Layout>
         <TopMenuShop device={device} currentBrand={currentBrand} setCurrentBrand={setCurrentBrand}/>
-        <Content>
-          <div style={{padding: '20px', display: 'grid', gridTemplateColumns: `${devicesCount<= 5 ? 'repeat(auto-fit, 260px)' : 'repeat(auto-fit, minmax(260px, 1fr)'}`, gap: '20px'}}>
+        <Content className={style.content}>
+          <div 
+          className={`${style.gridWrapper} ` + `${devicesCount<= 5 ? style.gridWrapper_withFew : style.gridWrapper_withMany}`}>
             {
               device.devices.map((item)=>
               <Card
                 key={item.id}
                 hoverable
-                style={{ width: '240px', display: 'grid', gridTemplateRows: 'auto 110px'}}
-                cover={<img alt="example" src={item.img} style={{width:'230px', paddingTop: '10px'}}/>}
+                className={style.card}
+                cover={device.isFetching? <Skeleton.Image active={true} style={{width:'auto', paddingTop: '10px', margin: '0px 1px 0px 0px', height:'240px'}}/> : <img alt="example" src={item.img} style={{maxWidth:'230px', paddingTop: '10px'}}/>}
                 onClick={()=>navigate(DEVICE_ROUTE + '/' + item.id)}
               >
-                <Meta title={item.name} description={item.price + ' руб'} />
+                {device.isFetching ? <Skeleton active={true} paragraph={{ rows: 2 }} title={false}/> : 
+                <Meta title={item.name} description={item.price + ' руб'} />}
               </Card>
               )
             }

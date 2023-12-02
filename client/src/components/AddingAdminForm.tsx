@@ -1,5 +1,6 @@
 import React from 'react'
 import { Form, Input, Button } from 'antd';
+import './styles/FormRepair.css'
 
 const AddingAdminForm = ({onFinish, name} : 
   {onFinish: (values: any)=>void, name: string}) => {
@@ -24,7 +25,7 @@ const AddingAdminForm = ({onFinish, name} :
         <Form.Item<FieldType> name="name" label="Название" rules={[{ required: true }]}>
           <Input />
         </Form.Item>
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+        <Form.Item wrapperCol={{ offset: 8, span: 16 }} style={{marginInlineStart: 0}}>
           <Button type="primary" htmlType="submit">
             Создать
           </Button>

@@ -15,7 +15,7 @@ const TopMenuShop = ({device, currentBrand, setCurrentBrand}:{device: DeviceStor
     >
         <div style={{ padding: 0, maxHeight: "40px", alignItems: "center" }}>
         <Menu
-        style={{maxHeight: "40px", alignItems: "center"}}
+        style={{maxHeight: "40px", alignItems: "center", zIndex: 2}}
         theme="dark"
         mode="horizontal"
         items={device.brands.map((brand: DeviceBrands) => ({

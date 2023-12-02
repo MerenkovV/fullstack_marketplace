@@ -20,6 +20,7 @@ export interface IUserStore {
     _types: DeviceTypes[]
     _brands: DeviceBrands[]
     _devices: Devices[]
+    _isFetching: boolean
     setTypes: (type:DeviceTypes[])=>void
     setBrands: (brand:DeviceBrands[])=>void
     setDevices: (device:Devices[])=>void
@@ -30,17 +31,19 @@ export default class DeviceStore implements IUserStore {
     _types: DeviceTypes[]
     _brands: DeviceBrands[]
     _devices: Devices[]
+    _isFetching: boolean
 
     constructor(){
         this._types = [
-            {id: 1, name: 'Загрузка...'},
+            {id: 1, name: ''},
         ]
         this._brands = [
-            {id: 1, name: 'Загрузка...'},
+            {id: 1, name: ''},
         ]
         this._devices = [
-            {id: 1, name: 'Загрузка...', price: 0, rating: 0, img: ''},
+            {id: 1, name: '', price: 0, rating: 0, img: ''},
         ]
+        this._isFetching = true
         makeAutoObservable(this)
     }
 
@@ -56,6 +59,10 @@ export default class DeviceStore implements IUserStore {
         this._devices = device
     }
 
+    setIsFetching(fetching: boolean){
+        this._isFetching = fetching
+    }
+
     public get types(){
         return this._types
     }
@@ -66,6 +73,10 @@ export default class DeviceStore implements IUserStore {
 
     public get devices(){
         return this._devices
+    }
+
+    public get isFetching(){
+        return this._isFetching
     }
 }
 

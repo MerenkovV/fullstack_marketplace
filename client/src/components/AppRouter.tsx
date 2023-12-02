@@ -6,19 +6,24 @@ import { useStore } from '../store/RootStore'
 import { Layout } from 'antd'
 import NavBar from './NavBar'
 import { check } from '../http/userAPI'
-import { observer } from 'mobx-react-lite';
+import { observer } from 'mobx-react-lite'
 
 
 const AppRouter = observer(() => {
   const {user} = useStore()
 
   useEffect(()=>{
+    user.setIsFetching(true)
     check().then((data)=>{
       if(data){
         user.setUser(data)
         user.setIsAuth(true)
       }
-    }).catch((e)=>{console.log(e.response.data.message)})
+      user.setIsFetching(false)
+    }).catch((e)=>{
+      console.log(e.response.data.message)
+      user.setIsFetching(false)
+    })
   }, [])
   
   return (

@@ -18,7 +18,7 @@ const NavBar = observer(() => {
     }
 
   return (
-    <Header style={{display: "flex", alignItems: "center", justifyContent: "space-between"}}>
+    <Header style={{display: "flex", alignItems: "center", justifyContent: "space-between", zIndex: 100}}>
         <NavLink className={style.logo} to={SHOP_ROUTE}>Device70</NavLink>
         <div className={style.login_panel}>
             {user.isAuth ?

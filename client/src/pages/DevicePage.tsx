@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import { fetchOneDevice } from '../http/deviceAPI';
 import { observer } from 'mobx-react-lite';
 import { Devices } from '../store/DeviceStore';
+import './styles/DevicePageStyle.css'
 
 const responsive = {
   0: { items: 1 }
@@ -28,12 +29,12 @@ const DevicePage = observer(() => {
   }, [])
   
 
-  const items = device?.img ? [<img src={device.img} alt="Device" width='500px' style={{borderRadius: '20px'}}/>] : [<img alt="Device" width='500px' style={{borderRadius: '20px'}}/>];
+  const items = device?.img ? [<img src={device.img} alt="Device" className='image_element'/>] : [<img alt="Device" className='image_element'/>];
   return (
     <Content style={{padding: '20px 0 0 0', minHeight: '100vh'}}>
       <h2 style={{textAlign: 'center', fontSize: '40px'}}>{device?.name}</h2>
-      <div className='top-wrapper' style={{display: 'flex', justifyContent: 'center'}}>
-        <div style={{maxWidth: '500px', flex: '500px 0 1', margin: '0 20px'}}>
+      <div className='top_wrapper'>
+        <div className='image_wrapper'>
           <AliceCarousel
               mouseTracking
               items={items}
@@ -43,13 +44,13 @@ const DevicePage = observer(() => {
           />
         </div>
         <div>
-          <div className='price-container' style={{width: '500px',height: 'fit-content' , background: '#111947e8', margin: '0 20px', borderRadius: '20px', display: 'flex', justifyContent: 'space-around', alignItems: 'start', padding: '30px 20px'}}>
-            <p className='price' style={{fontSize: '20px', color: '#fff', background: 'rgb(40 58 97)', padding: '5px 30px', borderRadius: '10px', fontWeight: 600, margin: 0}}>{device?.price} ₽</p>
-            <Button type="primary" style={{height: '35px', width: '120px'}}>Купить</Button>
+          <div className='price_container'>
+            <p className='price' style={{fontSize: '20px', color: '#fff', background: 'rgb(40 58 97)', padding: '5px 30px', borderRadius: '10px', fontWeight: 600, margin: 0}}>{device?.price}&nbsp;₽</p>
+            <Button className='buy_button' type="primary" style={{height: '35px', width: '120px'}}>Купить</Button>
           </div>
           <div className='description-container'>
-            <ul style={{padding: '0 25px'}}>
-              {device?.info.map((item: deviceStateTypeInfo)=><li key={item.id} style={{display: 'flex', justifyContent: 'space-between'}}><h3>{item.title}</h3> <p>{item.description}</p></li>)}
+            <ul className='description_list'>
+              {device?.info.map((item: deviceStateTypeInfo)=><li key={item.id} style={{display: 'flex', justifyContent: 'space-between'}}><h3 className='description_name'>{item.title}</h3> <p className='description_value'>{item.description}</p></li>)}
             </ul>
           </div>
         </div>

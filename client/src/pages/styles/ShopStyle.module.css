@@ -1,0 +1,32 @@
+.card{
+    width: 240px;
+    display: grid;
+    grid-template-rows: auto 110px;
+}
+
+.gridWrapper_withMany{
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+.gridWrapper_withFew{
+    grid-template-columns: repeat(auto-fit, 205px);
+}
+
+
+
+.gridWrapper{
+    gap: 20px 60px;
+    padding: 20px;
+    display: grid;
+}
+
+@media (max-width: 460px){
+    .content{
+        position: absolute;
+        z-index: 1;
+        right: calc(45vw - 139px);
+        top: 100px;
+    }
+    .card{
+        width: 215px;
+    }
+}
