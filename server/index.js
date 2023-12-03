@@ -22,7 +22,7 @@ app.use('/api', router)
 app.use(ErrorHandler)
 
 app.get('/', (request, response)=>{
-    response.status(200).json({message: 'HEY!'})
+    response.status(200).json({message: 'Ready'})
 })
 
 const start = async () => {

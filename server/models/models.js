@@ -58,8 +58,8 @@ Rating.belongsTo(User)
 Basket.hasMany(BasketDevice)
 BasketDevice.belongsTo(Basket)
 
-BasketDevice.hasOne(Device)
-Device.belongsTo(BasketDevice)
+Device.hasMany(BasketDevice)
+BasketDevice.belongsTo(Device)
 
 Device.hasMany(Rating)
 Rating.belongsTo(Device)
