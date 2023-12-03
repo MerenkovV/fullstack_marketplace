@@ -46,7 +46,8 @@ const Auth = observer(() => {
     formData.append('img', values.img[0].originFileObj)
     formData.append('brandId', `${values.brandId}`)
     formData.append('typeId', `${values.typeId}`)
-    formData.append('info', JSON.stringify(values.info))
+    if(values.info) formData.append('info', JSON.stringify(values.info))
+    else formData.append('info', JSON.stringify([]))
     
     createDevice(formData).then(()=>{
       messageApi.success('Девайс добавлен')
